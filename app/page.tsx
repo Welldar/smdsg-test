@@ -1,40 +1,13 @@
 'use client'
+import { MouseEventHandler } from 'react'
 import styles from './page.module.css'
-import { populateTemplateHTML } from './populateTemplate'
+import { getTemplateHTML } from './utilities/getTemplate'
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <>
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault()
-
-            const table = e.currentTarget.elements.namedItem(
-              'table'
-            ) as HTMLInputElement
-
-            const template = e.currentTarget.elements.namedItem(
-              'template'
-            ) as HTMLInputElement
-
-            const templateDoc = await populateTemplateHTML(
-              table.value,
-              template.value
-            )
-
-            const iframe = document.createElement('iframe')
-            iframe.style.display = 'block'
-            iframe.style.margin = '0 auto'
-            iframe.style.width = '794px'
-            iframe.style.maxWidth = '100%'
-            iframe.style.height = '1123px'
-
-            iframe.srcdoc = templateDoc ?? 'Something went wrong'
-
-            document.body.append(iframe)
-          }}
-        >
+        <form onSubmit={async (e) => e.preventDefault()}>
           <HrefInput
             name="table"
             pattern="https:\/\/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9\-_]+).+"
@@ -44,8 +17,33 @@ export default function Home() {
             pattern="https:\/\/docs\.google\.com\/document\/d\/([a-zA-Z0-9\-_]+).+"
           />
 
-          <button type="submit">Предварительный просмотр</button>
-          <button type="submit">Получить файл</button>
+          <Button
+            clickHandler={async (e) => {
+              const templateDoc = await getTemplateHTML(e.currentTarget.form!)
+
+              if (!templateDoc) return
+
+              const iframe = document.createElement('iframe')
+              iframe.style.display = 'block'
+              iframe.style.margin = '0 auto'
+              iframe.style.width = '794px'
+              iframe.style.maxWidth = '100%'
+              iframe.style.height = '1123px'
+
+              iframe.srcdoc = templateDoc
+
+              document.body.append(iframe)
+            }}
+          >
+            Предварительный просмотр
+          </Button>
+          <Button
+            clickHandler={async (e) => {
+              const templateDoc = await getTemplateHTML(e.currentTarget.form!)
+            }}
+          >
+            Получить файл
+          </Button>
         </form>
       </>
     </main>
@@ -67,5 +65,19 @@ function HrefInput({ name, pattern }: { name: string; pattern: string }) {
       pattern={pattern}
       defaultValue={defaultValue}
     />
+  )
+}
+
+function Button({
+  children,
+  clickHandler,
+}: {
+  children: React.ReactNode
+  clickHandler: MouseEventHandler<HTMLButtonElement>
+}) {
+  return (
+    <button type="button" onClick={clickHandler}>
+      {children}
+    </button>
   )
 }

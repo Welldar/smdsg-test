@@ -1,8 +1,8 @@
 import { unzip } from 'unzipit'
-import { decodeHTML } from './utilities/decodeHTML'
-import { makeExportUrl } from './utilities/makeExportUrl'
-import { filterEmptyColumns, isNotEmptyRow } from './utilities/filterTable'
-import { getMainHTMLFile } from './utilities/getMainFile'
+import { decodeHTML } from './decodeHTML'
+import { makeExportUrl } from './makeExportUrl'
+import { filterEmptyColumns, isNotEmptyRow } from './filterTable'
+import { getMainHTMLFile } from './getMainFile'
 
 export async function populateTemplateHTML(
   tableUserUrl: string,
