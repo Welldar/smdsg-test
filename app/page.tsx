@@ -1,6 +1,6 @@
 'use client'
 import styles from './page.module.css'
-import { generateFile } from './generatefile'
+import { populateTemplateHTML } from './populateTemplate'
 
 export default function Home() {
   return (
@@ -9,6 +9,7 @@ export default function Home() {
         <form
           onSubmit={async (e) => {
             e.preventDefault()
+
             const table = e.currentTarget.elements.namedItem(
               'table'
             ) as HTMLInputElement
@@ -17,7 +18,10 @@ export default function Home() {
               'template'
             ) as HTMLInputElement
 
-            const templateDoc = await generateFile(table.value, template.value)
+            const templateDoc = await populateTemplateHTML(
+              table.value,
+              template.value
+            )
 
             const iframe = document.createElement('iframe')
             iframe.style.display = 'block'
