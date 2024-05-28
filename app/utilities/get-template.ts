@@ -1,4 +1,4 @@
-import { populateTemplateHTML } from './populateTemplate'
+import { populateTemplateHTML } from './populate-template'
 
 export async function getTemplateHTML(form: HTMLFormElement) {
   if (!form.reportValidity()) return

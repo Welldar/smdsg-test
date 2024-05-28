@@ -1,8 +1,8 @@
 'use client'
-import { MouseEventHandler } from 'react'
-import { getTemplateHTML } from './utilities/getTemplate'
+import { getTemplateHTML } from './utilities/get-template'
 import { asBlob } from 'html-docx-js/dist/html-docx'
-import { Button as B } from 'react-bootstrap'
+import { HrefInput } from './components/href-input/href-input'
+import { Button } from './components/button/button'
 
 export default function Home() {
   return (
@@ -53,41 +53,8 @@ export default function Home() {
           >
             Получить файл
           </Button>
-          <B variant="secondary">haha</B>
         </form>
       </>
     </main>
-  )
-}
-
-function HrefInput({ name, pattern }: { name: string; pattern: string }) {
-  const defaultValue =
-    name == 'table'
-      ? 'https://docs.google.com/spreadsheets/d/1JoLAETB4v7Qo5FSnSXzKjFAnSflFo456/edit#gid=1209941521'
-      : 'https://docs.google.com/document/d/1HW2UK2nPiWZdKsDcsiFZsWLhGTDuGt6e/edit'
-
-  return (
-    <input
-      type="text"
-      name={name}
-      placeholder={name == 'table' ? 'Таблица' : 'Шаблон'}
-      required
-      pattern={pattern}
-      defaultValue={defaultValue}
-    />
-  )
-}
-
-function Button({
-  children,
-  clickHandler,
-}: {
-  children: React.ReactNode
-  clickHandler: MouseEventHandler<HTMLButtonElement>
-}) {
-  return (
-    <button type="button" onClick={clickHandler}>
-      {children}
-    </button>
   )
 }
