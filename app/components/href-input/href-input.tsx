@@ -1,4 +1,4 @@
-import { FormControl } from 'react-bootstrap'
+import { FormControl, FloatingLabel } from 'react-bootstrap'
 export function HrefInput({
   name,
   pattern,
@@ -12,13 +12,15 @@ export function HrefInput({
       : 'https://docs.google.com/document/d/1HW2UK2nPiWZdKsDcsiFZsWLhGTDuGt6e/edit'
 
   return (
-    <FormControl
-      type="text"
-      name={name}
-      placeholder={name == 'table' ? 'Таблица' : 'Шаблон'}
-      required
-      pattern={pattern}
-      defaultValue={defaultValue}
-    />
+    <FloatingLabel label={name == 'table' ? 'Таблица' : 'Шаблон'}>
+      <FormControl
+        type="text"
+        name={name}
+        placeholder={name == 'table' ? 'Таблица' : 'Шаблон'}
+        required
+        pattern={pattern}
+        defaultValue={defaultValue}
+      />
+    </FloatingLabel>
   )
 }
