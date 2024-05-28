@@ -3,6 +3,7 @@ import { decodeHTML } from './decodeHTML'
 import { makeExportUrl } from './makeExportUrl'
 import { filterEmptyColumns, isNotEmptyRow } from './filterTable'
 import { getMainHTMLFile } from './getMainFile'
+import { proxySrc } from './proxySrc'
 
 export async function populateTemplateHTML(
   tableUserUrl: string,
@@ -73,6 +74,7 @@ export async function populateTemplateHTML(
       .filter(isNotEmptyRow)
 
     rows = filterEmptyColumns(rows)
+    proxySrc(rows)
 
     const placeholder = placeholders[ind][0]
 
