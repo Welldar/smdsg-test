@@ -2,6 +2,7 @@
 import { MouseEventHandler } from 'react'
 import styles from './page.module.css'
 import { getTemplateHTML } from './utilities/getTemplate'
+import { asBlob } from 'html-docx-js/dist/html-docx'
 
 export default function Home() {
   return (
@@ -40,6 +41,14 @@ export default function Home() {
           <Button
             clickHandler={async (e) => {
               const templateDoc = await getTemplateHTML(e.currentTarget.form!)
+
+              if (!templateDoc) return
+
+              const fileBuffer = asBlob(templateDoc)
+              const a = document.createElement('a')
+              a.href = URL.createObjectURL(fileBuffer)
+              a.download = 'document.docx'
+              a.click()
             }}
           >
             Получить файл
