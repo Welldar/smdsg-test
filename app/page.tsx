@@ -1,12 +1,12 @@
 'use client'
 import { MouseEventHandler } from 'react'
-import styles from './page.module.css'
 import { getTemplateHTML } from './utilities/getTemplate'
 import { asBlob } from 'html-docx-js/dist/html-docx'
+import { Button as B } from 'react-bootstrap'
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main>
       <>
         <form onSubmit={async (e) => e.preventDefault()}>
           <HrefInput
@@ -53,6 +53,7 @@ export default function Home() {
           >
             Получить файл
           </Button>
+          <B variant="secondary">haha</B>
         </form>
       </>
     </main>
