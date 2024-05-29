@@ -21,9 +21,11 @@ export function GetFileButton() {
 
         const fileBuffer = asBlob(templateDoc)
         const a = document.createElement('a')
+
         a.href = URL.createObjectURL(fileBuffer)
         a.download = 'document.docx'
         a.click()
+
         setIsLoading(false)
       }}
     >
@@ -56,7 +58,9 @@ export function PreviewButton() {
         onClick={async (e) => {
           handleShow()
 
-          const templateDoc = await getTemplateHTML(e.currentTarget.form!)
+          const templateDoc = await getTemplateHTML(e.currentTarget.form!, {
+            removePadding: true,
+          })
           if (!templateDoc) return handleClose()
 
           const iframe = document.createElement('iframe')
