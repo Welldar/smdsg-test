@@ -1,14 +1,10 @@
-export function proxySrc(rows: HTMLTableRowElement[]) {
-  rows
-    .map((row) => row.querySelectorAll('[src]'))
-    .forEach((mediaList) =>
-      mediaList.forEach((media) => {
-        const src = media.getAttribute('src')
+export function proxySrc(media: Element) {
+  const src = media.getAttribute('src')
 
-        if (!src) return
+  if (!src) return
 
-        const searchParams = new URLSearchParams({ url: src })
-        media.setAttribute('src', `/api/proxy?${searchParams}`)
-      })
-    )
+  const searchParams = new URLSearchParams({ url: src })
+
+  media.setAttribute('src', `/proxy?${searchParams}`)
+  media.setAttribute('crossorigin', 'anonymous')
 }
