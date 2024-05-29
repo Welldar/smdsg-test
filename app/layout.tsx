@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'test',
+  title: 'Test Zheryakov',
 }
 
 export default function RootLayout({
