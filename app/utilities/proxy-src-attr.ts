@@ -5,6 +5,6 @@ export function proxySrc(media: Element) {
 
   const searchParams = new URLSearchParams({ url: src })
 
-  media.setAttribute('src', `/proxy?${searchParams}`)
+  media.setAttribute('src', `api/proxy?${searchParams}`)
   media.setAttribute('crossorigin', 'anonymous')
 }

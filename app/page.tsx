@@ -1,7 +1,7 @@
 'use client'
 import { HrefInput } from './components/href-input/href-input'
 import { Form, Stack } from 'react-bootstrap'
-import { GetFileButton, PreviewButton } from './components/buttons/button'
+import { GetFileButton, PreviewButton } from './components/buttons/main-buttons'
 
 export default function Home() {
   return (

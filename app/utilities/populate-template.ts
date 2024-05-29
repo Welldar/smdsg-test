@@ -1,7 +1,7 @@
 import { unzip } from 'unzipit'
 import { decodeHTML } from './decode-html'
-import { filterEmptyColumns, isNotEmptyRow } from './filter-table'
-import { getMainHTMLFile } from './get-main-file'
+import { filterEmptyColumns, isNotEmptyRow } from './table-filters'
+import { getTemplateHTML } from './get-template-html'
 import { proxySrc } from './proxy-src-attr'
 import { getTablesDOM } from './get-tables-dom'
 
@@ -11,11 +11,11 @@ export async function populateTemplateHTML(
 ) {
   const [{ entries: entriesTables }, { entries: entriesTemplate }] =
     await Promise.all([unzip(tableUrl), unzip(templateUrl)])
-  const templateBlob = getMainHTMLFile(entriesTemplate)
+  const templateRawHTML = getTemplateHTML(entriesTemplate)
 
-  if (!templateBlob) return
+  if (!templateRawHTML) return
 
-  const templateHTML = decodeHTML(await templateBlob.text())
+  const templateHTML = decodeHTML(await templateRawHTML)
   const placeholders = [...templateHTML.matchAll(/{[^{}]+(?:-\d+){2,4}}/gi)]
   const placeholderParams = placeholders.map((regExpExec) =>
     regExpExec[0].slice(1, -1).split('-')
@@ -37,7 +37,7 @@ export async function populateTemplateHTML(
 
     if (!tbody) throw new Error('Probably not correct table')
 
-    const rows = getQueriedRange(tbody, 'tr', row1, row2)
+    const rows = getQueriedRange<HTMLTableRowElement>(tbody, 'tr', row1, row2)
       .map((row) => row.cloneNode(true) as HTMLTableRowElement)
       .map((row) => {
         const cells = getQueriedRange(row, 'td', column1, column2).map(
@@ -57,7 +57,7 @@ export async function populateTemplateHTML(
     table.querySelectorAll('[src]').forEach(proxySrc)
 
     const placeholder = placeholders[ind][0]
-    const value = getReplaceValue(table) ?? ''
+    const value = getReplaceValue(table)
 
     return template.replaceAll(placeholder, value)
   }, templateHTML)
@@ -71,11 +71,12 @@ function getReplaceValue(table: HTMLTableElement) {
 
     div.className = 'table-wrapper'
     div.append(table)
+
     return div.outerHTML
-  }
+  } else return ''
 }
 
-function getQueriedRange(
+function getQueriedRange<T extends HTMLElement>(
   root: Element,
   type: string,
   start: string,
@@ -85,5 +86,5 @@ function getQueriedRange(
     ...root.querySelectorAll(
       `${type}:nth-of-type(n + ${start}):nth-of-type(-n + ${end})`
     ),
-  ]
+  ] as T[]
 }

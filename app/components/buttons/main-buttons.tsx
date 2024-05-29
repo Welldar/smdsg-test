@@ -2,7 +2,7 @@
 import { asBlob } from 'html-docx-js/dist/html-docx'
 import { useRef, useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { getTemplateHTML } from '@/app/utilities/get-template'
+import { getTemplateHTML } from '@/app/utilities/get-document-html'
 import { Modal } from 'react-bootstrap'
 
 export function GetFileButton() {
