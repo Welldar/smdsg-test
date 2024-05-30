@@ -1,12 +1,10 @@
 import { makeExportUrl } from './make-export-url'
 import { populateTemplateHTML } from './populate-template'
 
-export async function getTemplateHTML(
+export async function getDocumentHTML(
   form: HTMLFormElement,
   options = { removePadding: false }
 ) {
-  if (!form.reportValidity()) return
-
   const table = form.elements.namedItem('table') as HTMLInputElement
   const template = form.elements.namedItem('template') as HTMLInputElement
   const [tableUrl, templateUrl] = [

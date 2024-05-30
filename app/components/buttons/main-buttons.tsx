@@ -1,11 +1,11 @@
 'use client'
 import { asBlob } from 'html-docx-js/dist/html-docx'
-import { useRef, useState } from 'react'
+import { MouseEventHandler, useRef, useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { getTemplateHTML } from '@/app/utilities/get-document-html'
+import { getDocumentHTML } from '@/app/utilities/get-document-html'
 import { Modal } from 'react-bootstrap'
 
-export function GetFileButton() {
+export function GetFileButton({ clickHandler }: { clickHandler: () => void }) {
   const [isLoading, setIsLoading] = useState(false)
 
   return (
@@ -13,9 +13,16 @@ export function GetFileButton() {
       variant="outline-primary"
       type="button"
       onClick={async (e) => {
+        clickHandler()
+
+        const form = e.currentTarget.form
+
+        if (!form) return
+        if (!form.checkValidity()) return
+
         setIsLoading(true)
 
-        const templateDoc = await getTemplateHTML(e.currentTarget.form!)
+        const templateDoc = await getDocumentHTML(form)
 
         if (!templateDoc) return setIsLoading(false)
 
@@ -43,7 +50,7 @@ export function GetFileButton() {
   )
 }
 
-export function PreviewButton() {
+export function PreviewButton({ clickHandler }: { clickHandler: () => void }) {
   const [showModal, setShowModal] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
 
@@ -56,16 +63,24 @@ export function PreviewButton() {
         variant="primary"
         type="button"
         onClick={async (e) => {
+          clickHandler()
+
+          const form = e.currentTarget.form
+
+          if (!form) return
+          if (!form.checkValidity()) return
+
           handleShow()
 
-          const templateDoc = await getTemplateHTML(e.currentTarget.form!, {
+          const templateDoc = await getDocumentHTML(form, {
             removePadding: true,
           })
+
           if (!templateDoc) return handleClose()
 
           const iframe = document.createElement('iframe')
 
-          iframe.className = 'ms-auto w-100 d-block'
+          iframe.className = 'mx-auto w-100 d-block'
           iframe.srcdoc = templateDoc
           ref.current?.replaceChildren(iframe)
 
