@@ -36,7 +36,9 @@ export async function getDocumentHTML(
 
     .table-wrapper {
       display: block;
-      overflow-x: auto;
+      overflow-x: scroll;
+      box-sizing: content-box;
+      padding: 5px;
     }
 
     ${

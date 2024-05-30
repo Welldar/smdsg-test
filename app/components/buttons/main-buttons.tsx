@@ -1,6 +1,6 @@
 'use client'
 import { asBlob } from 'html-docx-js/dist/html-docx'
-import { MouseEventHandler, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { getDocumentHTML } from '@/app/utilities/get-document-html'
 import { Modal } from 'react-bootstrap'
