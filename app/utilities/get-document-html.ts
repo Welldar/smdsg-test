@@ -22,6 +22,14 @@ export async function getTemplateHTML(
 
   const style = `
   <style type="text/css">
+    html {
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+    }
+
     table, td, th {
       border: 1px solid;
       border-collapse: collapse;

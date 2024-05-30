@@ -64,14 +64,17 @@ export function PreviewButton() {
           if (!templateDoc) return handleClose()
 
           const iframe = document.createElement('iframe')
-          iframe.style.display = 'block'
-          iframe.style.margin = '0 auto'
-          iframe.style.width = '794px'
-          iframe.style.maxWidth = '100%'
-          iframe.style.height = '1123px'
-          iframe.srcdoc = templateDoc
 
+          iframe.className = 'ms-auto w-100 d-block'
+          iframe.srcdoc = templateDoc
           ref.current?.replaceChildren(iframe)
+
+          iframe.onload = (e) => {
+            const iframeHeight =
+              iframe.contentWindow?.document.documentElement.scrollHeight
+
+            iframe.style.height = `${iframeHeight ?? 600}px`
+          }
         }}
       >
         Предварительный просмотр
